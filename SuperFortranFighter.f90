@@ -472,8 +472,9 @@ end if
 
 end do
 
-
-print*, "Felicidades, El luchador", nombre, " ha sido creada de forma correcta!"
+print*, ''
+print*, '¡Felicidades, el luchador',nombre,'ha sido creado de forma correcta!'
+print*, ''
 write (*,'(A)') "Ahora proseguiras al ring"
 
 end subroutine creator
