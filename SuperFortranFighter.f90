@@ -473,7 +473,7 @@ end if
 end do
 
 print*, ''
-print*, '¡Felicidades, el luchador',nombre,'ha sido creado de forma correcta!'
+print*, '¡Felicidades, el luchador ' // trim(nombre) // ' ha sido creado de forma correcta!'
 print*, ''
 write (*,'(A)') "Ahora proseguiras al ring"
 
