@@ -506,9 +506,9 @@ print*
 
 print*, "*DING DING DING* Comienza la pelea"
 call sleep(2)
-write (*,'(A,$)') "Tu oponente tiene "
+write (*,'(A,$)') ''//achar(27)//'[95m Tu oponente tiene '//achar(27)//'[0m'
 write (*,'(I3,$)') op_stats(1)
-write (*,'(A,$)') " puntos de vida"
+write (*,'(A,$)') ''//achar(27)//'[95m puntos de vida '//achar(27)//'[0m'
 print*, ""
 call sleep(1)
 
@@ -530,13 +530,13 @@ call op_pos(opp, personality)
 
 select case (opp)
 case(2)
-	print*, "Puedes observar que tu rival ha adoptado una postura NEUTRAL"
+	print*, 'Puedes observar que tu rival ha adoptado una postura '//achar(27)//'[32m NEUTRAL '//achar(27)//'[0m'
 	call ne_pos(op_stats,bt_op_stats)
 case(3)
-	print*, "Puedes observar que tu rival ha adoptado una postura OFENSIVA"
+	print*, 'Puedes observar que tu rival ha adoptado una postura '//achar(27)//'[31m OFENSIVA '//achar(27)//'[0m'
 	call of_pos(op_stats,bt_op_stats)
 case(1)
-	print*, "Puedes observar que tu rival ha adoptado una postura DEFENSIVA"
+	print*, 'Puedes observar que tu rival ha adoptado una postura '//achar(27)//'[34m DEFENSIVA '//achar(27)//'[0m'
 	call def_pos(op_stats,bt_op_stats)
 case default
 end select
@@ -545,21 +545,23 @@ do while(key==0)
 
 print*, "¿Con qué postura deseas comenzar este round?"
 print*, "Ingrese el numero de la postura que desea adoptar"
-print*, "Defensiva 1, Neutra 2, Ofensiva 3"
-print*, "O ingrese 4 si desea un tutorial sobre posturas"
+print*, ''//achar(27)//'[34m DEFENSIVA '//achar(27)//'[0m 1'  
+print*, ''//achar(27)//'[32m NEUTRAL '//achar(27)//'[0m 2' 
+print*, ''//achar(27)//'[31m OFENSIVA '//achar(27)//'[0m 3' 
+print*, "o ingrese 4 si desea un tutorial sobre posturas"
 read(*,*) p
 
 select case (p)
 case(2)
-	print*, "Has adoptado una postura neutral"
+	print*, 'Has adoptado una postura '//achar(27)//'[32m NEUTRAL '//achar(27)//'[0m'
 	call ne_pos(stats,bt_stats)
 	key=1
 case(3)
-	print*, "Has adoptado una postura ofensiva"
+	print*, 'Has adoptado una postura '//achar(27)//'[31m OFENSIVA '//achar(27)//'[0m'
 	call of_pos(stats,bt_stats)
 	key=1
 case(1)
-	print*, "Has adoptado una postura defensiva"
+	print*, 'Has adoptado una postura '//achar(27)//'[34m DEFENSIVA '//achar(27)//'[0m'
 	call def_pos(stats,bt_stats)
 	key=1
 case(4)
@@ -580,12 +582,13 @@ time=time-1
 k=0
 do while(k==0)
 	print*, "¿Planeas intentar golpearlo o intentar bloquear su golpe?"
-	print*, "Golpear 1, Bloquear 0"
+	print*, ''//achar(27)//'[31m GOLPEAR '//achar(27)//'[0m 1'
+	print*, ''//achar(27)//'[34m BLOQUEAR '//achar(27)//'[0m 2'
 	read (*,*) a
 	if(a==0.or.a==1) then
 		k=1
 	else
-		print*, "por favor ingrese una acción válida"
+		print*, "Por favor ingrese una acción válida"
 		call sleep(1)
 		print*, ""
 	end if
@@ -596,44 +599,46 @@ call op_move(b,opp,personality)
 
 if((a*b)==0) then
 	if((a==0).and.(b==0)) then
-		print*, "¡Ambos han bloqueado! Nadie resulta lastimado"
+		print*, ''//achar(27)//'[34m ¡Ambos han bloqueado! Nadie resulta lastimado" '//achar(27)//'[0m'
 		call sleep(1)
 	else
 		if (a>b) then
-			print*, "Intentas golpear a tu rival mientras bloquea"
+			print*, 'Intentas '//achar(27)//'[31m GOLPEAR '//achar(27)//'[0m' 
+			print*, 'a tu rival mientras él '//achar(27)//'[34m BLOQUEA '//achar(27)//'[0m'
 			print*, ""
 			call sleep(1)
 			call punch(bt_stats,bt_op_stats)
 		else
-			print*, "Tu rival te intenta golpear mientras tú bloqueas"
+			print*, 'Tu rival te intenta '//achar(27)//'[31m GOLPEAR '//achar(27)//'[0m' 
+			print*, 'mientras tú '//achar(27)//'[34m BLOQUEAS '//achar(27)//'[0m'
 			print*, ""
 			call sleep(1)
 			call punch(bt_op_stats,bt_stats)
 		end if
 	end if
 else
-	print*, "AMBOS SE INTENTAN GOLPEAR AL MISMO TIEMPO"
+	print*, ''//achar(27)//'[31m AMBOS SE INTENTAN GOLPEAR AL MISMO TIEMPO '//achar(27)//'[0m'
 	print*, ""
 	call sleep(1)
 	call doble_punch(bt_stats,bt_op_stats)
 end if
 
 print*, ""
-write(*,'(A,$)') "Te quedan un total de " 
+write(*,'(A,$)') ''//achar(27)//'[95m Te quedan un total de '//achar(27)//'[0m'
 if (bt_stats(1)>0) then
 	write(*,'(I4,$)') bt_stats(1)
 else
 	write(*,'(I1,$)') 0
 end if
-write(*,'(A,$)') " puntos de vida"
+write(*,'(A,$)') ''//achar(27)//'[95m puntos de vida '//achar(27)//'[0m'
 print*, ""
-write(*,'(A,$)') "A tu oponente le quedan un total de " 
+write(*,'(A,$)') ''//achar(27)//'[91m A tu oponente le quedan un total de '//achar(27)//'[0m '
 if (bt_op_stats(1)>0) then
 	write(*,'(I4,$)') bt_op_stats(1)
 else
 	write(*,'(I1,$)') 0
 end if
-write(*,'(A,$)') " puntos de vida"
+write(*,'(A,$)') ''//achar(27)//'[91m puntos de vida '//achar(27)//'[0m '
 print*, ""
 print*, ""
 if(bt_stats(1)<1.or.bt_op_stats(1)<1)then
@@ -650,7 +655,7 @@ end do
 
 
 if (bt_stats(1)>0.and.bt_op_stats(1)<1) then
-	print*,"¡FELICIDADES, HAS GANADO ESTA PELEA!"
+	print*,''//achar(27)//'[32m ¡FELICIDADES, HAS GANADO ESTA PELEA! '//achar(27)//'[0m'
 	print*, ""
 	keys(oponente+1)=keys(oponente+1)+1
 	call sleep(2)
@@ -661,12 +666,16 @@ if (bt_stats(1)>0.and.bt_op_stats(1)<1) then
 		do while (u==0)
 			print*, "¡Puedes mejorar uno de tus stats!"
 			print*, "Por favor ingrese el stat que desea mejorar"
-			print*, " Hp: 1  Fuerza: 2  Velocidad: 3  Defensa: 4  Suerte: 5"
+			print*, ''//achar(27)//'[95m HP '//achar(27)//'[0m: 1'  
+			print*,''//achar(27)//'[31m FUERZA '//achar(27)//'[0m: 2' 
+			print*, ''//achar(27)//'[33m VELOCIDAD '//achar(27)//'[0m: 3' 
+			print*,''//achar(27)//'[34m DEFENSA '//achar(27)//'[0m: 4'  
+			print*, ''//achar(27)//'[36m SUERTE '//achar(27)//'[0m: 5'
 			print*, " de lo contrario, ingrese 0 si no desea mejorar ninguno"
 			read (*,*) upgrade
 			select case (upgrade)
 			case(1)
-				print*, "Usted ha decidido mejorar su HP."
+				print*, 'Usted ha decidido mejorar su '//achar(27)//'[95m HP '//achar(27)//'[0m'
 				call sleep(1)
 				write(*,'(A,$)') "Su hp ha pasado de "
 				write(*,'(I3,$)') stats(1)
@@ -675,7 +684,7 @@ if (bt_stats(1)>0.and.bt_op_stats(1)<1) then
 				write(*,'(I3)') stats(1)
 				u=1
 			case(2)
-				print*, "Usted ha decidido mejorar su fuerza."
+				print*, 'Usted ha decidido mejorar su '//achar(27)//'[31m FUERZA '//achar(27)//'[0m'
 				call sleep(1)
 				write(*,'(A,$)') "Su fuerza ha pasado de "
 				write(*,'(I2,$)') stats(2)
@@ -684,7 +693,7 @@ if (bt_stats(1)>0.and.bt_op_stats(1)<1) then
 				write(*,'(I2)') stats(2)
 				u=1
 			case(3)
-				print*, "Usted ha decidido mejorar su velocidad."
+				print*, 'Usted ha decidido mejorar su '//achar(27)//'[33m VELOCIDAD '//achar(27)//'[0m'
 				call sleep(1)
 				write(*,'(A,$)') "Su velocidad ha pasado de "
 				write(*,'(I2,$)') stats(3)
@@ -693,7 +702,7 @@ if (bt_stats(1)>0.and.bt_op_stats(1)<1) then
 				write(*,'(I2)') stats(3)
 				u=1
 			case(4)
-				print*, "Usted ha decidido mejorar su defensa"
+				print*, 'Usted ha decidido mejorar su '//achar(27)//'[34m DEFENSA '//achar(27)//'[0m'
 				call sleep(1)
 				write(*,'(A,$)') "Su hp ha pasado de "
 				write(*,'(I2,$)') stats(4)
@@ -702,7 +711,7 @@ if (bt_stats(1)>0.and.bt_op_stats(1)<1) then
 				write(*,'(I2)') stats(4)
 				u=1
 			case(5)
-				print*, "Usted ha decidido mejorar su suerte."
+				print*, 'Usted ha decidido mejorar su '//achar(27)//'[36m SUERTE '//achar(27)//'[0m'
 				call sleep(1)
 				write(*,'(A,$)') "Su suerte ha pasado de "
 				write(*,'(I2,$)') stats(5)
@@ -712,7 +721,7 @@ if (bt_stats(1)>0.and.bt_op_stats(1)<1) then
 				u=1
 			case(0)
 				print*, "Usted no ha decidido no mejorar nada"
-				print*, "Que valiente de su parte"
+				print*, "¡Qué valiente de tu parte!"
 				call sleep(1)
 				u=1
 			case default
@@ -720,27 +729,27 @@ if (bt_stats(1)>0.and.bt_op_stats(1)<1) then
 			end select
 			call sleep(2)
 			write (*,'(A)') "Sus stats ahora son:"
-			write (*,'(A,$)') "Hp:        "
+			write (*,'(A,$)') ''//achar(27)//'[95m HP '//achar(27)//'[0m'
 			write (*,'(I3)') stats(1)
-			write (*,'(A,$)') "Fuerza:    "
+			write (*,'(A,$)') ''//achar(27)//'[31m FUERZA '//achar(27)//'[0m'
 			write (*,'(I3)') stats(2)
-			write (*,'(A,$)') "Velocidad: "
+			write (*,'(A,$)') ''//achar(27)//'[33m VELOCIDAD '//achar(27)//'[0m'
 			write (*,'(I3)') stats(3)
-			write (*,'(A,$)') "Defensa:   "
+			write (*,'(A,$)') ''//achar(27)//'[34m DEFENSA '//achar(27)//'[0m'
 			write (*,'(I3)') stats(4)
-			write (*,'(A,$)') "Suerte:    "
+			write (*,'(A,$)') ''//achar(27)//'[36m SUERTE '//achar(27)//'[0m'
 			write (*,'(I3)') stats(5)
 			call sleep(2)
 		end do
 	end if
 else
 	if (bt_stats(1)<1.and.bt_op_stats(1)>0) then
-		print*,"¡Mala suerte! Has perdido esta pelea..."
+		print*,''//achar(27)//'[35m ¡Mala suerte! Has perdido esta pelea... '//achar(27)//'[0m'
 		print*, ""
 		lifes=lifes-1
 		call sleep(3)
 	else
-		print*,"¡Doble Knockout! Esta pelea ha sido declarada un empate"
+		print*,''//achar(27)//'[35m ¡Doble Knockout! Esta pelea ha sido declarada un empate '//achar(27)//'[0m'
 		print*, ""
 		call sleep(3)
 	end if
@@ -1670,18 +1679,18 @@ nd=nd*100
 if (n<x) then
 	if(nc<s) then 
 		if(nd<sd) then
-			print*, "¡EL GOLPE CRITICO ES EVADIDO!"
+			print*, ''//achar(27)//'[31m TU GOLPE CRÍTICO ES EVADIDO '//achar(27)//'[0m'
 			d=0
 		else
-			print*, "¡GOLPE CRITICO!"
+			print*, ''//achar(27)//'[33m ¡GOLPE CRITICO! '//achar(27)//'[0m'
 			d=(golpeador(2)*3 - golpeado(4))*2
 		end if
 	else
-		print*, "~~¡El golpe aterriza!~~"
+		print*, ''//achar(27)//'[32m ~~¡El golpe aterriza!~~ '//achar(27)//'[0m'
 		d=(golpeador(2)*(1.5) - golpeado(4))*(1.5)
 	end if
 	if (d<0) then
-		print*, "¡Pero no lastima!"
+		print*, ''//achar(27)//'[31m ¡Pero no lastima! '//achar(27)//'[0m'
 	else
 	golpeado(1)=golpeado(1)-d
 	write(*,'(A,$)') "El golpe quita "
@@ -1690,7 +1699,7 @@ if (n<x) then
 	print*, ""
 	end if
 else
-	print*, "~~¡El golpe no aterriza!~~"
+	print*, ''//achar(27)//'[31m ~~¡El golpe no aterriza!~~ '//achar(27)//'[0m'
 end if
 
 call sleep(2)
@@ -1757,18 +1766,18 @@ ncd2=ncd2*100
 if (n1<x1) then
 	if(n1<s1) then
 		if(ncd2<sd2) then
-			print*, "TU GOLPE CRÍTICO ES EVADIDO"
+			print*, ''//achar(27)//'[31m TU GOLPE CRÍTICO ES EVADIDO '//achar(27)//'[0m'
 			d1=0
 		else
-			print*, "¡GOLPE CRÍTICO!"
+			print*, ''//achar(27)//'[33m ¡GOLPE CRITICO! '//achar(27)//'[0m'
 		d1=(bt_stats(2)*4 - bt_op_stats(4))*2
 		end if
 	else
-		print*, "~~¡Tu golpe aterriza!~~"
+		print*, ''//achar(27)//'[32m ~~¡Tu golpe aterriza!~~ '//achar(27)//'[0m'
 		d1=(bt_stats(2)*2 - bt_op_stats(4))*2
 	end if
 	if (d1<0) then
-		print*, "Pero no lastima a tu rival!"
+		print*, ''//achar(27)//'[31m ¡Pero no lastima a tu rival! '//achar(27)//'[0m'
 	else
 	bt_op_stats(1)=bt_op_stats(1)-d1
 	write(*,'(A,$)') "Tu golpe quita "
@@ -1777,25 +1786,25 @@ if (n1<x1) then
 	print*, ""
 	end if
 else
-	print*, "~~¡Tu golpe no aterriza!~~"
+	print*, ''//achar(27)//'[31m ~~ ¡Tu golpe no aterriza!~~ '//achar(27)//'[0m'
 end if
 call sleep(1)
 
 if (n2<x2) then
 	if(n2<s2) then
 		if(ncd1<sd1) then
-			print*, "EVADES EL GOLPE CRITICO DE TU RIVAL"
+			print*,  ''//achar(27)//'[36m EVADES EL GOLPE CRITICO DE TU RIVAL '//achar(27)//'[0m'
 			d2=0
 		else
-			print*, "¡EL GOLPE DE TU RIVAL ES CRITICO!"
+			print*, ''//achar(27)//'[31m ¡EL GOLPE DE TU RIVAL ES CRITICO! '//achar(27)//'[0m'
 			d2=(bt_stats(2)*4 - bt_op_stats(4))*2
 		end if
 	else
-		print*, "~~¡El golpe de tu rival aterriza!~~"
+		print*, ''//achar(27)//'[31m "~~¡El golpe de tu rival aterriza!~~" '//achar(27)//'[0m'
 		d2=(bt_op_stats(2)*2 - bt_stats(4))*2
 	end if
 	if (d2<0) then
-		print*, "¡Pero no te lastima!"
+		print*, ''//achar(27)//'[34m ¡Pero no te lastima! '//achar(27)//'[0m'
 	else
 	bt_stats(1)=bt_stats(1)-d2
 	write(*,'(A,$)') "El golpe de tu rival te quita "
@@ -1804,7 +1813,7 @@ if (n2<x2) then
 	print*, ""
 	end if
 else
-	print*, "~~¡Su golpe no aterriza!~~"
+	print*, ''//achar(27)//'[34m ¡Su golpe no aterriza! '//achar(27)//'[0m'
 end if
 call sleep(1)
 
